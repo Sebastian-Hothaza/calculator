@@ -3,6 +3,9 @@
 // NOTE: Display holds up to 10 digits
 
 // TODO: Add keyboard support
+// TODO: Add decimal support
+// TODO: Add rounding
+// TODO: Add "preview pane"
 
 
 // Globals
@@ -81,6 +84,7 @@ function handleInput(btn){
             }else{
                 a = a.slice(0,a.length-1);
                 display.textContent = a;
+                escaped = false; // In this case, if we modified the result, we dont want to escape digits
             }
         } else if (curDisp == b) {
             if (b<10){
@@ -91,15 +95,7 @@ function handleInput(btn){
                 display.textContent = b;
             }
         } else{ 
-            if (curDisp<10){ 
-                console.log("CalcReset");
-                resetCalculator();
-            } else {
-                a = curDisp.slice(0,curDisp.length-1);
-                display.textContent = a; 
-                b="";
-                escaped = false;
-            }     
+            resetCalculator();
         }
     } else if (btn === 'btnDec'){
         //TODO
@@ -159,6 +155,7 @@ function compute(a, b, op){
 }
 
 function resetCalculator(){
+    console.log("Calculator reset")
     a="";
     b="";
     op="";
