@@ -1,7 +1,7 @@
 // Copyright Sebastian Hothaza
 
-// TODO: Add rounding
 // TODO: Add decimal support
+// TODO: Fix issue with del and decimals
 
 
 
@@ -12,6 +12,7 @@ let op="";
 let canSelectOp = false;    // Toggles when user can select an operand
 let selectedOp = false;     // True once we want to start building b
 let escaped = false;        // Used to define fresh a when digit selected after using equals
+let decEntered=false;
 let display = document.querySelector('.display');
 let secondaryDisplay = document.querySelector('.secondaryDisplay');
 
@@ -95,8 +96,10 @@ function handleInput(btn){
         // Update op and display it
         op = btn;
         display.textContent = "";
-        selectedOp = true;
         secondaryDisplay.textContent = a + " " + mapBtn(op);
+        selectedOp = true;
+        decEntered = false;
+
 
 
     } else if (btn === "btnEqu" && b){
@@ -106,14 +109,15 @@ function handleInput(btn){
         display.textContent = a;
         selectedOp = false; // Roll forward as a new op
         escaped = true;
+        decEntered = false;
 
 
         
     } else if (btn === "btnClr"){
         resetCalculator();
+
     } else if (btn === "btnDel"){
         let curDisp = display.textContent;
-        console.log("Currently on display: "+curDisp);
         if (curDisp == a){
             if (a<10){
                 a = "";
@@ -135,7 +139,20 @@ function handleInput(btn){
             resetCalculator();
         }
     } else if (btn === 'btnDec'){
-        //TODO
+        let curDisp = display.textContent;
+        if (!decEntered){
+            decEntered=true; //need to set to false when press equal or any op
+
+            if (curDisp == a){
+                a = a + ".";
+                display.textContent = a;
+            } else if (curDisp == b){
+                b = b + ".";
+                display.textContent = b;
+            } else {
+                // TODO
+            }
+        }
     }
 }
 
@@ -198,6 +215,7 @@ function resetCalculator(){
     op="";
     canSelectOp=false;
     selectedOp=false;
+    decEntered=false;
     display.textContent = "";
     secondaryDisplay.textContent = "";
 }
