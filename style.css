@@ -79,6 +79,22 @@ body{
     background-color: red;
 }
 
+#btnDel:hover{
+    background-color: #0000a7;
+}
+
+#btnClr:hover{
+    background-color: #ba0000;
+}
+
+#btnAdd, #btnSub, #btnMul, #btnDiv{
+    background-color: #ffb730;
+}
+
+#btnAdd:hover, #btnSub:hover, #btnMul:hover, #btnDiv:hover{
+    background-color: #d29627;
+}
+
 .clearRow, .row4, .row3, .row2, .row1{
     display: flex;
     justify-content: space-between;
@@ -90,4 +106,8 @@ body{
     height: 70px;
     box-shadow: 1px 1px black;
     font-weight: 800;
+}
+
+.calcButton:hover{
+    background-color:#c7c7c7
 }
