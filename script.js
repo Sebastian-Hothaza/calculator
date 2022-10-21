@@ -2,7 +2,6 @@
 
 // NOTE: Display holds up to 10 digits
 
-// TODO: Add keyboard support
 // TODO: Add decimal support
 // TODO: Add rounding
 // TODO: Add "preview pane"
@@ -27,11 +26,52 @@ allBtns.forEach((btn) => {
     });
 });
 
+// Listen for key down event
+window.addEventListener('keydown', e => {
+    console.log(e.code);
+    switch (e.code){
+        case 'Digit1': if (!e.shiftKey) handleInput('btn1'); break;
+        case 'Digit2': if (!e.shiftKey) handleInput('btn2'); break;
+        case 'Digit3': if (!e.shiftKey) handleInput('btn3'); break;
+        case 'Digit4': if (!e.shiftKey) handleInput('btn4'); break;
+        case 'Digit5': if (!e.shiftKey) handleInput('btn5'); break;
+        case 'Digit6': if (!e.shiftKey) handleInput('btn6'); break;
+        case 'Digit7': if (!e.shiftKey) handleInput('btn7'); break;
+        case 'Digit8': 
+            if (!e.shiftKey){
+                handleInput('btn8');
+            } else {
+                handleInput('btnMul');
+            }
+            break;
+        case 'Digit9': if (!e.shiftKey) handleInput('btn9'); break;
+        case 'Digit0': if (!e.shiftKey) handleInput('btn0'); break;
+
+        case 'Equal':
+            if (e.shiftKey){
+                handleInput('btnAdd');
+            }else{
+                handleInput('btnEqu');
+            }
+            break;
+        case 'Enter':
+            handleInput('btnEqu'); break;
+        case 'Minus': if (!e.shiftKey) handleInput('btnSub'); break;
+        case 'Slash': if (!e.shiftKey) handleInput('btnDiv'); break;
+
+        case 'Period': if (!e.shiftKey) handleInput('btnDec'); break;
+
+        case 'Backspace': handleInput('btnDel'); break;
+        case 'Escape': handleInput('btnClr'); break;
+    }
+});
+
 
 
 
 // a op b format used!
 function handleInput(btn){
+    console.log("handleInput: "+btn);
     if (btn === "btn1" || btn === "btn2" || btn === "btn3" || btn === "btn4" || btn === "btn5" ||
         btn === "btn6" || btn === "btn7" || btn === "btn8" || btn === "btn9" || btn === "btn0"){
         // Numeric input, can be clicked at any point
