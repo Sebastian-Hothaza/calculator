@@ -4,7 +4,7 @@
 
 // TODO: Add decimal support
 // TODO: Add rounding
-// TODO: Add "preview pane"
+// TODO: Disallow main display char flow over 10 digits. Assure secondary display can handle it too!
 
 
 // Globals
@@ -100,11 +100,11 @@ function handleInput(btn){
         op = btn;
         display.textContent = "";
         selectedOp = true;
-        secondaryDisplay.textContent = a + mapBtn(op);
+        secondaryDisplay.textContent = a + " " + mapBtn(op);
 
 
     } else if (btn === "btnEqu" && b){
-        secondaryDisplay.textContent = a + mapBtn(op) + b + "=";
+        secondaryDisplay.textContent = a + " " + mapBtn(op) + " " + b + " " +  "=";
         a = compute(a,b,op);
         b="";
         display.textContent = a;
