@@ -223,6 +223,7 @@ function resetCalculator(){
     canSelectOp=false;
     selectedOp=false;
     decEntered=false;
+    terminatedCalc = false;
     display.textContent = "";
     secondaryDisplay.textContent = "";
 }
