@@ -31,24 +31,32 @@ body{
     display: flex;
     justify-content: right;
     align-items: center;
-    height: 20px;
+    min-height: 20px;
     padding-top: .5em ;
     padding-right: .75em;
 
     font-size: 24px;
     color: #adff2f;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .display{
     display: flex;
     justify-content: right;
+    
     align-items: center;
-    height: 60px;
+    min-height: 60px;
     padding: .25em .25em;
 
     font-size: 48px;
     font-weight: 800;
     color: #adff2f;
+
+    word-wrap: break-word;
+    word-break: break-all;
+
 }
 
 .userControls{
@@ -111,3 +119,17 @@ body{
 .calcButton:hover{
     background-color:#c7c7c7
 }
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    font-size: 18px;
+    background-color: #dfdfdf;
+    padding: .5em 0;
+  }

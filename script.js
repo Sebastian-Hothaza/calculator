@@ -1,19 +1,17 @@
 // Copyright Sebastian Hothaza
 
-// NOTE: Display holds up to 10 digits
-
-// TODO: Add decimal support
 // TODO: Add rounding
-// TODO: Disallow main display char flow over 10 digits. Assure secondary display can handle it too!
+// TODO: Add decimal support
+
 
 
 // Globals
 let a="";
 let b="";
 let op="";
-let canSelectOp = false; // Toggles when user can select an operand
-let selectedOp = false; // True once we want to start building b
-let escaped = false; // Used to define fresh a when digit selected after using equals
+let canSelectOp = false;    // Toggles when user can select an operand
+let selectedOp = false;     // True once we want to start building b
+let escaped = false;        // Used to define fresh a when digit selected after using equals
 let display = document.querySelector('.display');
 let secondaryDisplay = document.querySelector('.secondaryDisplay');
 
