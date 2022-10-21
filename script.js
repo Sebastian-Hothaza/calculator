@@ -51,16 +51,16 @@ function handleInput(btn){
 
 
     } else if (canSelectOp && (btn === "btnAdd" || btn === "btnSub" || btn === "btnMul" || btn === "btnDiv")){
-        op = btn;
-        selectedOp = true;
-        display.textContent = mapBtn(op);
-
+        
         // rolling calculation
         if (b){ 
-            a = compute(a,b,op); // Compute new a value, b is still to be input
+            a = compute(a,b,op); // Compute new a value, b is still to be input. Use old op
             b = "";
         } 
-
+        // Update op and display it
+        op = btn;
+        display.textContent = mapBtn(op);
+        selectedOp = true;
 
 
     } else if (btn === "btnEqu" && b){
