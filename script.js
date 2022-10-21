@@ -15,6 +15,7 @@ let canSelectOp = false; // Toggles when user can select an operand
 let selectedOp = false; // True once we want to start building b
 let escaped = false; // Used to define fresh a when digit selected after using equals
 let display = document.querySelector('.display');
+let secondaryDisplay = document.querySelector('.secondaryDisplay');
 
 
 
@@ -26,7 +27,7 @@ allBtns.forEach((btn) => {
     });
 });
 
-// Listen for key down event
+// Keyboard handling
 window.addEventListener('keydown', e => {
     console.log(e.code);
     switch (e.code){
@@ -67,9 +68,7 @@ window.addEventListener('keydown', e => {
 });
 
 
-
-
-// a op b format used!
+// a op b format
 function handleInput(btn){
     console.log("handleInput: "+btn);
     if (btn === "btn1" || btn === "btn2" || btn === "btn3" || btn === "btn4" || btn === "btn5" ||
@@ -99,11 +98,13 @@ function handleInput(btn){
         } 
         // Update op and display it
         op = btn;
-        display.textContent = mapBtn(op);
+        display.textContent = "";
         selectedOp = true;
+        secondaryDisplay.textContent = a + mapBtn(op);
 
 
     } else if (btn === "btnEqu" && b){
+        secondaryDisplay.textContent = a + mapBtn(op) + b + "=";
         a = compute(a,b,op);
         b="";
         display.textContent = a;
@@ -201,5 +202,6 @@ function resetCalculator(){
     op="";
     canSelectOp=false;
     selectedOp=false;
-    display.textContent = "0";
+    display.textContent = "";
+    secondaryDisplay.textContent = "";
 }

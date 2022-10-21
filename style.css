@@ -12,20 +12,24 @@ body{
     margin-top: 5em;
     padding: 2em;
     border-style: solid;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #838383;
     width: 300px;
     gap: 30px;
 }
 
 .display{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 60px;
+    padding: .5em .25em;
+
     font-size: 48px;
+    font-weight: 800;
     background-color: black;
     color: #adff2f;
     border-radius: 10px;
-    text-align: right;
-    padding: .5em .25em;
-    font-weight: 800;
 }
 
 .userControls{
