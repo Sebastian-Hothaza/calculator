@@ -1,17 +1,12 @@
 // Copyright Sebastian Hothaza
 
-// TODO: Add decimal support
-// TODO: Fix issue with del and decimals
-
-
-
 // Globals
 let a="";
 let b="";
 let op="";
 let canSelectOp = false;    // Toggles when user can select an operand
 let selectedOp = false;     // True once we want to start building b
-let escaped = false;        // Used to define fresh a when digit selected after using equals
+let terminatedCalc = false; // True once a calc is terminated by pressing equals
 let decEntered=false;
 let display = document.querySelector('.display');
 let secondaryDisplay = document.querySelector('.secondaryDisplay');
@@ -74,13 +69,16 @@ function handleInput(btn){
 
         // If number corresponds to a
         if (!selectedOp){ 
-            if (escaped) a=""; // Reset a to fresh since coming off of equals
-            a = ("" + a + mapBtn(btn));
+            if (terminatedCalc) { // Reset a to fresh since coming off of terminated calc
+                a=""; 
+                if (decEntered) a="."; // If user has a decimal currently entered, make sure we include it!
+            }
+            a += mapBtn(btn); // TODO: Remove blank str and adjust mapBtn to return str
             canSelectOp = true;
             display.textContent = a; 
-            escaped=false;
+            terminatedCalc=false;
         } else { // Number received corresponds to b.
-            b = ("" + b + mapBtn(btn));
+            b += mapBtn(btn);
             display.textContent = b;
         }
 
@@ -103,15 +101,15 @@ function handleInput(btn){
 
 
     } else if (btn === "btnEqu" && b){
-        secondaryDisplay.textContent = a + " " + mapBtn(op) + " " + b + " " +  "=";
+        // Calculation is terminated however answer is carried forward to use for next calc. (Unless user presses digit)
+        terminatedCalc = true;
+        selectedOp = false; 
+        decEntered = false;
+
+        secondaryDisplay.textContent = a + " " + mapBtn(op) + " " + b + " " +  "="; // show calculation we just did
         a = compute(a,b,op);
         b="";
         display.textContent = a;
-        selectedOp = false; // Roll forward as a new op
-        escaped = true;
-        decEntered = false;
-
-
         
     } else if (btn === "btnClr"){
         resetCalculator();
@@ -119,19 +117,21 @@ function handleInput(btn){
     } else if (btn === "btnDel"){
         let curDisp = display.textContent;
         if (curDisp == a){
-            if (a<10){
+            if (a.length == 1){
                 a = "";
-                display.textContent = 0;
+                display.textContent = a;
             }else{
+                if (a[a.length-1] == '.') decEntered = false; // If we deleted the decimal, allow it to be replaced!
                 a = a.slice(0,a.length-1);
                 display.textContent = a;
-                escaped = false; // In this case, if we modified the result, we dont want to escape digits
+                terminatedCalc = false; // In this case, if we modified the result, we dont want to escape digits
             }
         } else if (curDisp == b) {
-            if (b<10){
+            if (b.length == 1){
                 b = "";
-                display.textContent = 0;
+                display.textContent = b;
             }else{
+                if (b[b.length-1] == '.') decEntered = false; // If we deleted the decimal, allow it to be replaced!
                 b = b.slice(0,b.length-1);
                 display.textContent = b;
             }
@@ -141,33 +141,35 @@ function handleInput(btn){
     } else if (btn === 'btnDec'){
         let curDisp = display.textContent;
         if (!decEntered){
-            decEntered=true; //need to set to false when press equal or any op
+            decEntered=true; //set to false when press equal or any op or reset the calc
 
+            if (terminatedCalc) { // If terminatedCalc, the input of . is fresh and applies to building new a
+                a = ".";
+                display.textContent = a;
+            }
             if (curDisp == a){
                 a = a + ".";
                 display.textContent = a;
             } else if (curDisp == b){
                 b = b + ".";
                 display.textContent = b;
-            } else {
-                // TODO
-            }
+            } 
         }
     }
 }
 
-// Given a btn in the form of btnx, returns x
+// Given a btn in the form of btnx, returns x as string
 function mapBtn(btn){
-    if (btn == "btn1") return 1;
-    if (btn == "btn2") return 2;
-    if (btn == "btn3") return 3;
-    if (btn == "btn4") return 4;
-    if (btn == "btn5") return 5;
-    if (btn == "btn6") return 6;
-    if (btn == "btn7") return 7;
-    if (btn == "btn8") return 8;
-    if (btn == "btn9") return 9;
-    if (btn == "btn0") return 0;
+    if (btn == "btn1") return "1";
+    if (btn == "btn2") return "2";
+    if (btn == "btn3") return "3";
+    if (btn == "btn4") return "4";
+    if (btn == "btn5") return "5";
+    if (btn == "btn6") return "6";
+    if (btn == "btn7") return "7";
+    if (btn == "btn8") return "8";
+    if (btn == "btn9") return "9";
+    if (btn == "btn0") return "0";
 
     if (btn == "btnAdd") return '+';
     if (btn == "btnSub") return '-';
@@ -183,7 +185,10 @@ function mapBtn(btn){
 // Returns a op b where op is the id of the opBtn AS STRING!
 // Rounds result to 4 decimal places
 function compute(a, b, op){
-    // We assure conversion to int for now
+    if (a==".") return b;
+    if (b==".") return a;
+
+
     if (a == ""){
         a = 0;
     }else{
@@ -194,11 +199,12 @@ function compute(a, b, op){
     }else{
         b = parseFloat(b);
     }
+
     switch(op){
         case "btnAdd":
-            return String(a + b);
+            return String(Math.round((a + b)*10000)/10000);
         case "btnSub":
-            return String(a - b);
+            return String(Math.round((a - b)*10000)/10000);
         case "btnMul":
             return String(Math.round((a * b)*10000)/10000);
         case "btnDiv":
@@ -207,6 +213,7 @@ function compute(a, b, op){
             resetCalculator();
             return 0;
     }
+    alert("ERROR! compute sent illegal operation!")
 }
 
 function resetCalculator(){
