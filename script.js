@@ -91,13 +91,14 @@ function handleInput(btn){
                 display.textContent = b;
             }
         } else{ 
-            if (curDisp<10){ //not working properly
+            if (curDisp<10){ 
                 console.log("CalcReset");
                 resetCalculator();
             } else {
                 a = curDisp.slice(0,curDisp.length-1);
                 display.textContent = a; 
                 b="";
+                escaped = false;
             }     
         }
     } else if (btn === 'btnDec'){
