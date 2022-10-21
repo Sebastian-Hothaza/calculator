@@ -27,7 +27,6 @@ allBtns.forEach((btn) => {
 
 // Keyboard handling
 window.addEventListener('keydown', e => {
-    console.log(e.code);
     switch (e.code){
         case 'Digit1': if (!e.shiftKey) handleInput('btn1'); break;
         case 'Digit2': if (!e.shiftKey) handleInput('btn2'); break;
@@ -68,7 +67,6 @@ window.addEventListener('keydown', e => {
 
 // a op b format
 function handleInput(btn){
-    console.log("handleInput: "+btn);
     if (btn === "btn1" || btn === "btn2" || btn === "btn3" || btn === "btn4" || btn === "btn5" ||
         btn === "btn6" || btn === "btn7" || btn === "btn8" || btn === "btn9" || btn === "btn0"){
         // Numeric input, can be clicked at any point
@@ -166,17 +164,18 @@ function mapBtn(btn){
 
 
 // Returns a op b where op is the id of the opBtn AS STRING!
+// Rounds result to 4 decimal places
 function compute(a, b, op){
     // We assure conversion to int for now
     if (a == ""){
         a = 0;
     }else{
-        a = parseInt(a);
+        a = parseFloat(a);
     }
     if (b == ""){
         b = 0;
     }else{
-        b = parseInt(b);
+        b = parseFloat(b);
     }
     switch(op){
         case "btnAdd":
@@ -184,9 +183,9 @@ function compute(a, b, op){
         case "btnSub":
             return String(a - b);
         case "btnMul":
-            return String(a * b);
+            return String(Math.round((a * b)*10000)/10000);
         case "btnDiv":
-            if (b) return String(a / b);
+            if (b) return String(Math.round((a / b)*10000)/10000);
             alert("We don't have the technology for your request...");
             resetCalculator();
             return 0;
@@ -194,7 +193,6 @@ function compute(a, b, op){
 }
 
 function resetCalculator(){
-    console.log("Calculator reset")
     a="";
     b="";
     op="";
